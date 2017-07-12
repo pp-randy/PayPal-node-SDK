@@ -12,33 +12,6 @@ require('./configure');
 
 describe('SDK', function () {
 	describe('Payment', function () {
-        var create_payment_json_card = {
-            "intent": "sale",
-            "payer": {
-                "payment_method": "credit_card",
-                "funding_instruments": [{
-                    "credit_card": {
-                        "type": "visa",
-                        "number": "4417119669820331",
-                        "expire_month": "11",
-                        "expire_year": "2018",
-                        "cvv2": "874"
-                    }
-                }]
-            },
-            "transactions": [{
-                "amount": {
-                    "total": "7",
-                    "currency": "USD",
-                    "details": {
-                        "subtotal": "5",
-                        "tax": "1",
-                        "shipping": "1"
-                    }
-                },
-                "description": "This is the payment transaction descriptiön."
-            }]
-        };
 
         var discount_amount = "-2.00";
         var shipping = "1.00";
@@ -146,18 +119,6 @@ describe('SDK', function () {
             require('./mocks/payment');
         }
 
-        it('create with credit_card', function (done) {
-            paypal.payment.create(create_payment_json_card, function (error, payment) {
-                expect(error).equal(null);
-                expect(payment.id).to.contain('PAY-');
-
-                paypal.payment.get(payment.id, function (error, payment) {
-                    expect(error).equal(null);
-                    expect(payment.state).to.contain('approved');
-                    done();
-                });
-            });
-        });
 
         it('list', function (done) {
             paypal.payment.list({ "count": 2 }, function (error, payment_history) {
